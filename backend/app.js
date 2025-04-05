@@ -9,6 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.get('/', (req, res) => {
+    res.send('Backend API running on Vercel 🚀');
+  });
+
+// Routes
 const authRoutes = require('./routes/authRoutes');
 app.use('/api', authRoutes); // register will be /api/register
 app.use('/api/customer', customerRoutes);

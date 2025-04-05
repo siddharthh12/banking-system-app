@@ -1,10 +1,7 @@
 const app = require('./app');
 const dotenv = require('dotenv');
 dotenv.config();
-const db = require('./models/db'); // ✅ only this
+require('./models/db'); // connects to DB
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// ✅ Export the app (no app.listen)
+module.exports = app;
