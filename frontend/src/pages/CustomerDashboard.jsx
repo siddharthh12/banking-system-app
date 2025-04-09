@@ -11,7 +11,7 @@ const CustomerDashboard = () => {
 
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?.id;
-  const API_URL = "https://banking-system-app-beta.vercel.app/";
+  const API_URL = "https://banking-system-app-beta.vercel.app";
 
   useEffect(() => {
     if (!userId) {
@@ -19,17 +19,29 @@ const CustomerDashboard = () => {
       return;
     }
 
+    // ✅ Fetch account details
     fetch(`${API_URL}/api/customer/account/${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        setUser(data);
+      .then(res => {
+        if (!res.ok) throw new Error("Account fetch failed");
+        return res.json();
       })
-      .catch(err => console.error("Account fetch error", err));
+      .then(data => setUser(data))
+      .catch(err => {
+        console.error("Account fetch error", err);
+        alert("Failed to fetch account details. Please try again.");
+      });
 
+    // ✅ Fetch transactions
     fetch(`${API_URL}/api/customer/transactions/${userId}`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Transaction fetch failed");
+        return res.json();
+      })
       .then(data => setTransactions(data))
-      .catch(err => console.error("Transaction fetch error", err));
+      .catch(err => {
+        console.error("Transaction fetch error", err);
+        alert("Failed to fetch transaction history.");
+      });
   }, [userId]);
 
   const handleTransaction = () => {
@@ -40,9 +52,12 @@ const CustomerDashboard = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, amount: parseFloat(amount) }),
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Transaction failed");
+        return res.json();
+      })
       .then(data => {
-        alert(data.message);
+        alert(data.message || "Transaction successful");
         setAmount("");
 
         return Promise.all([
@@ -54,7 +69,10 @@ const CustomerDashboard = () => {
         setUser(updatedUser);
         setTransactions(updatedTransactions);
       })
-      .catch(err => console.error("Transaction error:", err));
+      .catch(err => {
+        console.error("Transaction error:", err);
+        alert("Transaction failed. Please try again.");
+      });
   };
 
   const logout = () => {
