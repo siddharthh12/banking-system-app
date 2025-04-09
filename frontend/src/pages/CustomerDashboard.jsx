@@ -11,7 +11,7 @@ const CustomerDashboard = () => {
 
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?.id;
-  const API_URL = "http://localhost:5000";
+  const API_URL = "https://banking-system-app-beta.vercel.app/";
 
   useEffect(() => {
     if (!userId) {

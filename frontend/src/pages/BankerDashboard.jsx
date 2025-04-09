@@ -30,7 +30,7 @@ const BankerDashboard = () => {
 
     const fetchAccounts = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/banker/customers", {
+        const res = await axios.get("https://banking-system-app-beta.vercel.app/api/banker/customers", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAccounts(res.data || []);
@@ -51,7 +51,7 @@ const BankerDashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:5000/api/banker/customer-transactions/${customerId}`,
+        `https://banking-system-app-beta.vercel.app/api/banker/customer-transactions/${customerId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

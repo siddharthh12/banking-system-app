@@ -11,7 +11,7 @@ function BankerLogin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/login/banker', {
+      const res = await axios.post('https://banking-system-app-beta.vercel.app/api/login/banker', {
         username,
         password,
       });
