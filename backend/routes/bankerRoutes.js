@@ -7,6 +7,8 @@ const authenticateBanker = require("../middlewares/authenticateBanker");
 
 // routes/bankerRoutes.js
 router.get('/customers', (req, res) => {
+  console.log("🔍 [GET] /api/banker/customers");
+
   const sql = `
     SELECT 
       u.id AS id,
@@ -14,19 +16,22 @@ router.get('/customers', (req, res) => {
       u.email, 
       IFNULL(SUM(t.amount), 0) AS balance
     FROM users u
-    LEFT JOIN transactions t ON u.id = t.account_id
-    GROUP BY u.id
+    LEFT JOIN accounts a ON u.id = a.user_id
+    LEFT JOIN transactions t ON a.id = t.account_id
+    GROUP BY u.id, u.name, u.email
   `;
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error('Banker customer fetch error:', err);
-      return res.status(500).json({ message: 'Database error' });
+      console.error("❌ SQL Error:", err);
+      return res.status(500).json({ message: "Database error", error: err.message });
     }
 
+    console.log("✅ Customers fetched:", results);
     res.json(results);
   });
 });
+
 
 
 // ✅ Get all transactions

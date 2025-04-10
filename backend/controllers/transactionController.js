@@ -28,7 +28,6 @@ exports.withdraw = (req, res) => {
   const { amount } = req.body;
   const type = 'withdraw';
 
-  // Get current balance
   db.query(
     'SELECT SUM(CASE WHEN type = "deposit" THEN amount ELSE -amount END) AS balance FROM accounts WHERE user_id = ?',
     [userId],
@@ -40,7 +39,6 @@ exports.withdraw = (req, res) => {
         return res.status(400).json({ error: 'Insufficient funds' });
       }
 
-      // Record withdrawal
       db.query(
         'INSERT INTO accounts (user_id, amount, type) VALUES (?, ?, ?)',
         [userId, amount, type],

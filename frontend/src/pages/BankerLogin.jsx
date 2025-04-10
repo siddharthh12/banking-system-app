@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function BankerLogin() {
   const [username, setUsername] = useState('');
@@ -8,19 +7,16 @@ function BankerLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post('https://banking-system-app-beta.vercel.app/api/login/banker', {
-        username,
-        password,
-      });
 
+    // ✅ Hardcoded login credentials
+    if (username === 'banker' && password === 'admin123') {
       alert('Login Successful');
-      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('token', 'dummy-banker-token');
       navigate('/banker/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+    } else {
+      setError('Invalid username or password');
     }
   };
 

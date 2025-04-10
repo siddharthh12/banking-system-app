@@ -98,12 +98,13 @@ const CustomerDashboard = () => {
         <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>💼 Customer Dashboard</h2>
 
         {user && (
-          <div style={{ marginBottom: "1.5rem" }}>
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Balance:</strong> ₹{user.balance.toFixed(2)}</p>
-          </div>
-        )}
+  <div style={{ marginBottom: "1.5rem" }}>
+    <p><strong>Name:</strong> {user.name}</p>
+    <p><strong>Email:</strong> {user.email}</p>
+    <p><strong>Balance:</strong> ₹{Number(user?.balance ?? 0).toFixed(2)}</p>
+    </div>
+)}
+
 
         <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
           <select
