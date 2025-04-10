@@ -6,7 +6,7 @@ const { verifyBanker } = require('../middlewares/authMiddleware');
 const authenticateBanker = require("../middlewares/authenticateBanker");
 
 // routes/bankerRoutes.js
-router.get('/customers', (req, res) => {
+router.get('/customers',  (req, res) => {
   console.log("🔍 [GET] /api/banker/customers");
 
   const sql = `

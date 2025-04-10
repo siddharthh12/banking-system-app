@@ -75,21 +75,18 @@ router.post('/login', (req, res) => {
 
 // ✅ Banker Login with hardcoded credentials
 router.post('/login/banker', (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
+  console.log('Received:', { email, password }); // Add this line
 
-  const BANKER_ID = 'admin';
-  const BANKER_PASSWORD = 'secure123';
-
-  if (username === BANKER_ID && password === BANKER_PASSWORD) {
+  if (email === 'banker@gmail.com' && password === '123456') {
     const token = jwt.sign(
-      { username, role: 'banker' },
+      { id: 1, role: 'banker', email },
       process.env.JWT_SECRET || 'secret_key',
       { expiresIn: '1h' }
     );
-    return res.status(200).json({ message: 'Login successful', token });
-  } else {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.json({ token });
   }
+  return res.status(401).json({ message: 'Invalid banker credentials' });
 });
 
 module.exports = router;
